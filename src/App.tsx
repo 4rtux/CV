@@ -2,57 +2,58 @@
 
 import { useState, useEffect } from "react"
 import { Github, Linkedin, Mail } from "lucide-react"
+import { useTranslation } from "react-i18next"
 import { Navigation } from "./components/Navigation"
 import { ProjectCard } from "./components/ProjectCard"
 import { TechStackSection } from "./components/TechStackSection"
 import { ContactForm } from "./components/ContactForm"
 import AnimatedBackground from "./components/AnimatedBackground"
-import type { Project, TechStack } from "./types"
+import type { Project, TechStack} from "./types"
 
-const projects: Project[] = [
+const projectsData: Project[] = [
   {
-    title: "Convolutional Neural Network Brain Tumor Classifier",
-    description: "An AI model powered by a CNN to predict brain tumors using MRI images",
+    title: 'project.1.title',
+    description: 'project.1.description',
     imageUrl: "https://images.unsplash.com/photo-1631563019676-dade0dbdb8fc?auto=format&fit=crop&w=800&q=80",
     githubUrl: "https://github.com/4rtux/CNN-Brain-Tumor-Classification-Model",
     tags: ["Python", "TensorFlow", "Keras"],
   },
   {
-    title: "Neural Network Stroke Predictor",
-    description: "A neural network model to predict strokes using patient data",
+    title: "project.2.title",
+    description: "project.2.description",
     imageUrl: "https://images.unsplash.com/photo-1617791160536-598cf32026fb?auto=format&fit=crop&w=800&q=80",
     githubUrl: "https://github.com/4rtux/NN-Stroke-Predictor",
     tags: ["Python", "Tensorflow", "Keras"],
   },
   {
-    title: "Asian Restaurant Website",
-    description: "An elegant website for an Asian restaurant",
+    title: "project.3.title",
+    description: "project.3.description",
     imageUrl: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
     githubUrl: "https://github.com/4rtux/Asian-Restaurant-Website",
     tags: ["HTML", "CSS", "JavaScript"],
   },
   {
-    title: "Advertising Portal",
-    description: "A portal for advertising products and services",
+    title: "project.4.title",
+    description: "project.4.description",
     imageUrl: "https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?auto=format&fit=crop&w=800&q=80",
     githubUrl: "https://github.com/4rtux/Advertising-portal",
     tags: ["React", "Node.js", "TypeScript"],
   },
   {
-    title: "Simple App Showcasing Security Implementations",
-    description: "A transactional app showcasing RSA encryption and certificate verification",
+    title: "project.5.title",
+    description: "project.5.description",
     imageUrl: "https://images.unsplash.com/photo-1603899122634-f086ca5f5ddd?auto=format&fit=crop&w=800&q=80",
     githubUrl: "https://github.com/NataaNK/Criptografia_ptica_final",
     tags: ["Python", "Security", "RSA", "Certificates", "2FA"],
   },
   {
-    title: "App showcasing client-server communication including web server petitions",
-    description: "Client-server communication in C using RPC and web server (Python) petitions",
+    title: "project.6.title",
+    description: "project.6.description",
     imageUrl: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80",
     githubUrl: "https://github.com/NataaNK/SSDD_Proyecto_Final",
     tags: ["C", "Python", "RPC"],
   },
-]
+];
 
 const techStacks: TechStack[] = [
   {
@@ -80,27 +81,12 @@ const techStacks: TechStack[] = [
 function App() {
   const [isDark, setIsDark] = useState(false)
 
+  const { t } = useTranslation()
+
   useEffect(() => {
     const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
     setIsDark(darkMode)
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up")
-          }
-        })
-      },
-      { threshold: 0.1 },
-    )
-
-    document.querySelectorAll("section").forEach((section) => {
-      observer.observe(section)
-    })
-
-    return () => observer.disconnect()
-  }, [])
+  }, []);
 
   const toggleTheme = () => setIsDark(!isDark)
 
@@ -116,11 +102,11 @@ function App() {
             <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-down">
               Arturo Soto
               <span className="block text-2xl md:text-3xl text-gray-600 dark:text-gray-400 mt-2">
-                Computer Scientist
+              {t('hero.title')}
               </span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto italic animate-fade-in">
-              "The most exciting interfaces are those yet to be imagined, where humans and AI collaborate seamlessly."
+            {t('hero.quote')}
             </p>
             <div className="flex justify-center space-x-6 mt-8 animate-fade-in-up">
               <a
@@ -152,7 +138,7 @@ function App() {
         {/* About Section */}
         <section id="about" className="py-16 px-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">About Me</h2>
+            <h2 className="text-3xl font-bold mb-8">{t('about.title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <img
                 src="src/media/Imagen Linkedin.jpg"
@@ -161,16 +147,10 @@ function App() {
               />
               <div>
                 <p className="text-lg leading-relaxed mb-6">
-                  I'm Arturo. A Computer Scientist in Madrid which loves AI related projects. Since I was a kid, I've
-                  been fascinated by the power of technology and computers. I built myself my first computer when I was
-                  16 years old and I've been coding ever since. When I was 18, I built my first NAS server for myself
-                  and started learning about networking and cloud computing. Now, I'm finishing my degree in Computer
-                  Science and I had the opportunity to work with many people and in different countries.
+                {t('about.content1')}
                 </p>
                 <p className="text-lg leading-relaxed">
-                  My journey in technology has led me to work on various exciting projects, for example, an AI model
-                  that predicts brain tumors with MRI images. I'm always eager to learn new technologies and contribute
-                  to meaningful projects that push the boundaries of what's possible.
+                {t('about.content2')}
                 </p>
               </div>
             </div>
@@ -180,9 +160,9 @@ function App() {
         {/* Projects Section */}
         <section id="projects" className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">Projects</h2>
+            <h2 className="text-3xl font-bold mb-8">{t('projects.title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects.map((project) => (
+              {projectsData.map((project) => (
                 <ProjectCard key={project.title} project={project} />
               ))}
             </div>
@@ -192,7 +172,7 @@ function App() {
         {/* Tech Stack Section */}
         <section className="py-16 px-4 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">Tech Stack</h2>
+            <h2 className="text-3xl font-bold mb-8">{t('techStack.title')}</h2>
             <TechStackSection stacks={techStacks} />
           </div>
         </section>
@@ -200,14 +180,14 @@ function App() {
         {/* Contact Section */}
         <section id="contact" className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">Get in Touch</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center">{t('contact.title')}</h2>
             <ContactForm />
           </div>
         </section>
 
         {/* Footer */}
         <footer className="py-8 px-4 text-center text-sm text-gray-600 dark:text-gray-400">
-          <p>© {new Date().getFullYear()} 4rtux.dev. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} 4rtux.dev. {t('footer.rights')}</p>
         </footer>
       </div>
     </div>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Github } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import type { Project } from '../types';
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project }: { project: Project }, { n }: { n: number }) {
+  const { t } = useTranslation();
+
   return (
     <div className="group relative overflow-hidden rounded-[0.5rem] bg-white dark:bg-gray-800 shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl">
       <div className="aspect-video w-full overflow-hidden">
@@ -13,9 +16,9 @@ export function ProjectCard({ project }: { project: Project }) {
         />
       </div>
       <div className="p-4">
-        <h3 className="text-lg font-semibold">{project.title}</h3>
+        <h3 className="text-lg font-semibold">{t(project.title)}</h3>
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          {project.description}
+          {t(project.description)}
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           {project.tags.map((tag) => (
@@ -34,7 +37,7 @@ export function ProjectCard({ project }: { project: Project }) {
           className="mt-4 inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
           <Github className="mr-1 h-4 w-4" />
-          View on GitHub
+          {t('projects.viewOnGithub')}
         </a>
       </div>
     </div>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, XCircle } from 'lucide-react';
 import { toast, Toaster } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export function ContactForm() {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -24,18 +26,18 @@ export function ContactForm() {
     };
 
     if (formData.name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters long';
+      newErrors.name = t('contact.form.validation.nameRequired');
       isValid = false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('contact.form.validation.emailInvalid');
       isValid = false;
     }
 
     if (formData.message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters long';
+      newErrors.message = t('contact.form.validation.messageRequired');
       isValid = false;
     }
 
@@ -47,7 +49,7 @@ export function ContactForm() {
     e.preventDefault();
     
     if (!validateForm()) {
-      toast.error('Please check the form for errors', {
+      toast.error(t('contact.form.validation.checkForm'), {
         icon: <XCircle className="w-5 h-5 text-red-500" />,
         style: {
           background: '#FEE2E2',
@@ -71,10 +73,10 @@ export function ContactForm() {
       const data = await response.json();
 
       if (data.success) {
-        toast.custom((t) => (
+        toast.custom((t1) => (
           <div
             className={`${
-              t.visible ? 'animate-enter' : 'animate-leave'
+              t1.visible ? 'animate-enter' : 'animate-leave'
             } max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
           >
             <div className="flex-1 w-0 p-4">
@@ -84,10 +86,10 @@ export function ContactForm() {
                 </div>
                 <div className="ml-3 flex-1">
                   <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                    Message Sent Successfully!
+                    {t('contact.form.success')}
                   </p>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    Thank you for your message. I'll get back to you soon!
+                    {t('contact.form.successDetail')}
                   </p>
                 </div>
               </div>
@@ -104,7 +106,7 @@ export function ContactForm() {
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error('Failed to send message. Please try again.', {
+      toast.error(t('contact.form.error'), {
         icon: <XCircle className="w-5 h-5 text-red-500" />,
         style: {
           background: '#FEE2E2',
@@ -121,7 +123,7 @@ export function ContactForm() {
       <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-6">
         <div>
           <label htmlFor="name" className="block text-sm font-medium mb-2">
-            Name
+          {t('contact.form.name')}
           </label>
           <input
             type="text"
@@ -144,7 +146,7 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium mb-2">
-            Email
+          {t('contact.form.email')}
           </label>
           <input
             type="email"
@@ -167,7 +169,7 @@ export function ContactForm() {
         </div>
         <div>
           <label htmlFor="message" className="block text-sm font-medium mb-2">
-            Message
+          {t('contact.form.message')}
           </label>
           <textarea
             id="message"
@@ -194,7 +196,7 @@ export function ContactForm() {
           className="w-full flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-[0.5rem] transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           <Send className="w-4 h-4" />
-          <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+          <span>{isSubmitting ? t('contact.form.sending') : t('contact.form.send')}</span>
         </button>
       </form>
       <Toaster position="bottom-right" />

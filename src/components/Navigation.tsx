@@ -1,6 +1,7 @@
 import React from 'react';
 import { Code2 } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { LanguageToggle } from './LanguageToggle';
 
 type NavigationProps = {
   isDark: boolean;
@@ -31,9 +32,11 @@ export function Navigation({ isDark, toggleTheme }: NavigationProps) {
                 {item}
               </a>
             ))}
+            <LanguageToggle />
             <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
           </div>
           <div className="md:hidden">
+            <LanguageToggle />
             <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
           </div>
         </div>
