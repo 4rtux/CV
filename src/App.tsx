@@ -8,6 +8,7 @@ import { ProjectCard } from "./components/ProjectCard"
 import { TechStackSection } from "./components/TechStackSection"
 import { ContactForm } from "./components/ContactForm"
 import AnimatedBackground from "./components/AnimatedBackground"
+import { useReveal } from "./hooks/useReveal"
 import type { Project, TechStack} from "./types"
 
 const projectsData: Project[] = [
@@ -80,8 +81,8 @@ const techStacks: TechStack[] = [
 
 function App() {
   const [isDark, setIsDark] = useState(false)
-
   const { t } = useTranslation()
+  const revealRef = useReveal()
 
   useEffect(() => {
     const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -92,23 +93,23 @@ function App() {
 
   return (
     <div className={isDark ? "dark" : ""}>
-      <div className="min-h-screen bg-transparent text-gray-900 dark:text-gray-100 transition-colors">
+      <div ref={revealRef as React.RefObject<HTMLDivElement>} className="min-h-screen bg-transparent text-gray-900 dark:text-gray-100 transition-colors">
         <AnimatedBackground />
         <Navigation isDark={isDark} toggleTheme={toggleTheme} />
 
         {/* Hero Section */}
         <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
           <div className="max-w-7xl mx-auto text-center z-10">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-down">
+            <h1 className="reveal text-4xl md:text-6xl font-bold mb-6 animate-fade-in-down">
               Arturo Soto
-              <span className="block text-2xl md:text-3xl text-gray-600 dark:text-gray-400 mt-2">
+              <span className="reveal reveal-delay-1 block text-2xl md:text-3xl text-gray-600 dark:text-gray-400 mt-2">
               {t('hero.title')}
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto italic animate-fade-in">
+            <p className="reveal reveal-delay-2 text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto italic animate-fade-in">
             {t('hero.quote')}
             </p>
-            <div className="flex justify-center space-x-6 mt-8 animate-fade-in-up">
+            <div className="reveal reveal-delay-3 flex justify-center space-x-6 mt-8 animate-fade-in-up">
               <a
                 href="https://github.com/4rtux"
                 target="_blank"
@@ -138,18 +139,20 @@ function App() {
         {/* About Section */}
         <section id="about" className="py-16 px-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">{t('about.title')}</h2>
+            <h2 className="reveal text-3xl font-bold mb-8">{t('about.title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="reveal reveal-left">
               <img
                 src="src/media/Imagen Linkedin.jpg"
                 alt="Profile"
                 className="rounded-[0.5rem] shadow-lg w-full h-auto object-cover"
               />
+              </div>
               <div>
-                <p className="text-lg leading-relaxed mb-6">
+                <p className="reveal reveal-right text-lg leading-relaxed mb-6">
                 {t('about.content1')}
                 </p>
-                <p className="text-lg leading-relaxed">
+                <p className="reveal reveal-right reveal-delay-1 text-lg leading-relaxed">
                 {t('about.content2')}
                 </p>
               </div>
@@ -160,10 +163,12 @@ function App() {
         {/* Projects Section */}
         <section id="projects" className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">{t('projects.title')}</h2>
+            <h2 className="reveal text-3xl font-bold mb-8">{t('projects.title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projectsData.map((project) => (
-                <ProjectCard key={project.title} project={project} />
+              {projectsData.map((project, index) => (
+                <div className={`reveal reveal-delay-${index % 3 + 1}`} key={project.title}>
+                  <ProjectCard key={project.title} project={project} />
+                </div>
               ))}
             </div>
           </div>
@@ -172,21 +177,25 @@ function App() {
         {/* Tech Stack Section */}
         <section className="py-16 px-4 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8">{t('techStack.title')}</h2>
-            <TechStackSection stacks={techStacks} />
+            <h2 className="reveal text-3xl font-bold mb-8">{t('techStack.title')}</h2>
+            <div className="reveal">
+              <TechStackSection stacks={techStacks} />
+            </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-16 px-4">
+        <section id="contact" className="py-40 px-4">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">{t('contact.title')}</h2>
-            <ContactForm />
+            <h2 className="reveal text-3xl font-bold mb-8 text-center">{t('contact.title')}</h2>
+            <div className="reveal reveal-delay-1">
+              <ContactForm />
+            </div>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="py-8 px-4 text-center text-sm text-gray-600 dark:text-gray-400">
+        <footer className="reveal py-8 px-4 text-center text-sm text-gray-600 dark:text-gray-400">
           <p>© {new Date().getFullYear()} 4rtux.dev. {t('footer.rights')}</p>
         </footer>
       </div>
